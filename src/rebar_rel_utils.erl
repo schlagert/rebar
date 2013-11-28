@@ -78,8 +78,8 @@ get_reltool_release_info(ReltoolFile) when is_list(ReltoolFile) ->
 %% Get release name and version from a rel file
 get_rel_release_info(RelFile) ->
     case file:consult(RelFile) of
-        {ok, [{release, {Name, Ver}, _, _}]} ->
-            {Name, Ver};
+        {ok, [{release, {Name, Ver}, {erts, ErtsVsn}, _}]} ->
+            {Name, Ver, ErtsVsn};
         _ ->
             ?ABORT("Failed to parse ~s~n", [RelFile])
     end.

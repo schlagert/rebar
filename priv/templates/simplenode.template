@@ -6,6 +6,8 @@
 {chmod, 8#744, "files/nodetool"}.
 {file, "simplenode.runner", "files/{{nodeid}}"}.
 {chmod, 8#744, "files/{{nodeid}}"}.
+{template, "simplenode.start", "files/start"}.
+{chmod, 8#744, "files/start"}.
 {file, "simplenode.sys.config", "files/sys.config"}.
 {template, "simplenode.vm.args", "files/vm.args"}.
 {template, "simplenode.windows.runner.cmd", "files/{{nodeid}}.cmd"}.

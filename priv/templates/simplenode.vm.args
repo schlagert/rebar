@@ -4,7 +4,8 @@
 ## Cookie for distributed erlang
 -setcookie {{nodeid}}
 
-## Heartbeat management; auto-restarts VM if it dies or becomes unresponsive
+## Heartbeat management; auto-restarts VM if it dies or becomes unresponsive,
+## mandatory for release upgrades changing the emulator
 ## (Disabled by default..use with caution!)
 ##-heart
 

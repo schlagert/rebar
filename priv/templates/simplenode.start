@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# /bin/sh on Solaris is not a POSIX compatible shell, but /usr/bin/ksh is.
+if [ `uname -s` = 'SunOS' -a "${POSIX_SHELL}" != "true" ]; then
+    POSIX_SHELL="true"
+    export POSIX_SHELL
+    exec /usr/bin/ksh $0 "$@"
+fi
+
+# clear it so if we invoke other scripts, they run as ksh as well
+unset POSIX_SHELL
+
+## This script replaces the default "start" in erts-VSN/bin. This is
+## necessary for release upgrades changing the emulator. The release_handler
+## depends on it, as temporary heart command.
+##
+## Note that this script makes the assumption that there is a {{nodeid}}
+## script available in the same directory ($ROOTDIR/bin).
+
+RUNNER_SCRIPT_DIR=$(cd ${0%/*} && pwd -P)
+RUNNER_BASE_DIR=${RUNNER_SCRIPT_DIR%/*}
+$RUNNER_BASE_DIR/bin/{{nodeid}} start_new_emulator $1

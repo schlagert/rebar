@@ -169,7 +169,7 @@ overlay_vars(Config, Vars0, ReltoolConfig) ->
     BaseVars = load_vars_file([proplists:get_value(overlay_vars, ReltoolConfig)]),
     OverlayVars = rebar_config:get_global(Config, overlay_vars, []),
     OverrideVars = load_vars_file(string:tokens(OverlayVars, ",")),
-    M = fun merge_overlay_var/3, 
+    M = fun merge_overlay_var/3,
     dict:merge(M, dict:merge(M, Vars0, BaseVars), OverrideVars).
 
 merge_overlay_var(_Key, _Base, Override) -> Override.
@@ -387,6 +387,12 @@ create_RELEASES(TargetDir, RelName, RelVsn) ->
     RelFile = filename:join([ReleasesDir, RelVsn, RelName ++ ".rel"]),
     Apps = rebar_rel_utils:get_rel_apps(RelFile),
     TargetLib = filename:join(TargetDir,"lib"),
+
+    %% Every release needs a start.boot file, otherwise release_handler can't
+    %% downgrade to it on emulator change.
+    RelBootFile = filename:join([ReleasesDir, RelVsn, RelName ++ ".boot"]),
+    DefBootFile = filename:join([ReleasesDir, RelVsn, "start.boot"]),
+    {ok, _BytesCopied} = file:copy(RelBootFile, DefBootFile),
 
     AppDirs =
         [ {App, Vsn, TargetLib}

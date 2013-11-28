@@ -53,8 +53,8 @@
     %% Get the new and old release name and versions
     {Name, _Ver} = rebar_rel_utils:get_reltool_release_info(ReltoolConfig),
     NewVerPath = filename:join([TargetParentDir, Name]),
-    {NewName, NewVer} = rebar_rel_utils:get_rel_release_info(Name, NewVerPath),
-    {OldName, OldVer} = rebar_rel_utils:get_rel_release_info(Name, OldVerPath),
+    {NewName, NewVer, _} = rebar_rel_utils:get_rel_release_info(Name, NewVerPath),
+    {OldName, OldVer, _} = rebar_rel_utils:get_rel_release_info(Name, OldVerPath),
 
     %% Run some simple checks
     true = rebar_utils:prop_check(NewVer =/= OldVer,
